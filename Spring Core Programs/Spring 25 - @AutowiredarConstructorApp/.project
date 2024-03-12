@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Spring 25 - RealTimeDI-SteroAnnotationsandPropertiesFileApproach</name>
+	<name>Spring 25 - @AutowiredarConstructorApp</name>
 	<comment></comment>
 	<projects>
 	</projects>

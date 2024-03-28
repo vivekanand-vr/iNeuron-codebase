@@ -1,5 +1,0 @@
-{"properties": [{
-  "name": "management.security.enable",
-  "type": "java.lang.String",
-  "description": "A description for 'management.security.enable'"
-}]}

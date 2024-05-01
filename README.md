@@ -12,6 +12,7 @@ Feel free to explore the projects and delve into the codebase to gain insights i
 - Databases : MySQL, MongoDB, PostgreSQL
 - Developer Tools : Git, Maven, SL4J, Apache Kafka, Redis Cache
 
+`Note: Core Java programs will be uploaded soon`
 
 ## Usage
 Pull the repo and import the projects in your Eclipse IDE, also make sure to include the necessary jar and war files to run the project.

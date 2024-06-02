@@ -1,0 +1,385 @@
+Collections(c)
+==============
+  => It is a utility class present in java.util package.
+  => It defines the method meant for sorting,searching and reversing the elements
+
+Note:
+  Collection(I)
+     |=> List 
+	    a. It wont speak about sorting,so use Collections(c).
+     |=> Set
+	    a. It we want sorting then we can opt for TreeSet.
+     |=> Queue
+	    a. If we want sorting then we can opt for PriorityQueue.
+
+
+To sort the elemets of List
+===========================
+  1. public static void sort(List l)
+        1.It sorts the element in ascending order/alphabetical order
+        2.The elements should be homogenous and it should comparable otherwise it leads to
+	  ClassCastException.
+	3.If it contains null,it would result in "NullPointerException".
+
+  2. public static void sort(List l,Comparator c)
+       1. It sorts the elements based on our customization.
+
+Sorting based on NaturalSorting order
+====================================
+import java.util.Collections;
+import java.util.ArrayList;
+public class TestApp{
+	public static void main(String... args){
+		ArrayList l=new ArrayList();
+		l.add("Z");
+		l.add("A");
+		l.add("K");
+		l.add("N");
+		l.add(null);//RE:ClassCastException
+		l.add(new Integer(10));//RE:NullPointerException
+		System.out.println("Before Sorting: "+l);//[Z,A,K,N]
+		Collections.sort(l);
+		System.out.println("After Sorting: "+l);//[A,K,N,Z]
+	}
+}
+
+Sorting based on CustomizedSorting order
+=======================================
+eg#1.
+
+import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Comparator;
+
+public class TestApp{
+	public static void main(String... args){
+		ArrayList l=new ArrayList();
+		l.add("Z");
+		l.add("A");
+		l.add("K");
+		l.add("N");
+
+		System.out.println("Before Sorting: "+l);//[Z,A,K,N]
+		Collections.sort(l,new MyComparator());
+		System.out.println("After Sorting: "+l);//[Z,N,K,A]
+	}
+}
+class MyComparator implements Comparator{
+
+	@Override
+	public int compare(Object obj1,Object obj2){
+
+		String s1=obj1.toString();
+		String s2=obj2.toString();
+
+		return s2.compareTo(s1);
+
+	}
+}
+
+Searching Elements of List:
+1) public static int binarySearch(List l, Object target);
+     If we are Sorting List According to Natural Sorting Order then we have to Use this Method.
+2) public static int binarySearch(List l, Object target, Comparator c);
+     If we are Sorting List according to Comparator then we have to Use this Method.
+
+Conclusions:
+=> Internally the Above Search Methods will Use Binary Search Algorithm.
+=> Before performing Search Operation Compulsory List should be Sorted. Otherwise we will 
+   get Unpredictable Results.
+=> Successful Search Returns Index.
+=> Unsuccessful Search Returns Insertion Point.
+=> Insertion Point is the Location where we can Insert the Target Element in the SortedList.
+=> If the List is Sorted according to Comparator then at the Time of Search Operation Also we 
+   should Pass the Same Comparator Object. Otherwise we will get Unpredictable Results.
+
+Program: To Search Elements of List According to Natural Sorting Order
+import java.util.*;
+class CollectionsSearchDemo {
+  public static void main(String args[]) {
+	ArrayList al = new ArrayList();
+	al.add("Z");
+	al.add("A");
+	al.add("M");
+	al.add("K");
+	al.add("a");
+	System.out.println(al); //[Z, A, M, K, a]
+	Collections.sort(al);
+	System.out.println(al); //[A, K, M, Z, a]
+	System.out.println(Collections.binarySearch(al, "Z")); //3
+	System.out.println(Collections.binarySearch(al, "J")); //-2
+  }
+}
+
+Program: To Search Elements of List According to Customized Sorting Order
+import java.util.*;
+class CollectionsSearchDemo {
+	public static void main(String args[]) {
+		ArrayList al = new ArrayList();
+		al.add(15);
+		al.add(0);
+		al.add(20);
+		al.add(10);
+		al.add(5);
+	System.out.println(al); //[15, 0, 20, 10, 5]
+	
+	Collections.sort(al, new MyComparator());
+	
+	System.out.println(al); //[20, 15, 10, 5, 0]
+
+	System.out.println(Collections.binarySearch(al, 10, new MyComparator())); //2
+	System.out.println(Collections.binarySearch(al, 13, new MyComparator())); //-3
+	System.out.println(Collections.binarySearch(al, 17)); //-6
+  }
+}
+class MyComparator implements Comparator {
+	public int compare(Object obj1, Object obj2) {
+ 		Integer I1 = (Integer)obj1;
+ 		Integer I2 = (Integer)obj2;
+		return I2.compareTo(I1);
+	}
+}
+
+Eg: For the List of 3 Elements 
+	A B Z
+1) Range of Successful Search: 0 To 2
+2) Range of Unsuccessful Search: -4 To -1
+3) Total Result Range: -4 To 2
+
+
+Note: For the List of n Elements 
+1) Successful Result Range: 0 To n-1
+2) Unsuccessful Result Range: -(n+1) To -1
+3) Total Result Range: -(n+1) To n-1
+
+Reversing the Elements of List:
+	public static void reverse(List l);
+
+import java.util.*;
+class CollectionsReverseDemo {
+public static void main(String args[]) {
+	ArrayList al = new ArrayList();
+	al.add(15);
+	al.add(0);
+	al.add(20);
+	al.add(10);
+	al.add(5);
+	System.out.println(al); //[15, 0, 20, 10, 5]
+	Collections.reverse(al);
+	System.out.println(al); //[5,10,20,0,15]
+   }
+}
+
+reverse() VsreverseOrder():
+=> We can Use reverse() to Reverse Order of Elements of List.
+=> We can Use reverseOrder() to get Reversed Comparator.
+
+Comparator c1 = Collecctions.reverseOrder(Comparator c);
+           |                                         |
+   Descending Order                            Ascending Order
+
+
+Arrays
+======
+=> Arrays Class is an Utility Class to Define Several Utility Methods for Array Objects.
+
+Sorting Elements of Array:
+1) public static void sort(primitive[] p); To Sort According to Natural Sorting Order.
+2) public static void sort(Object[] o);    To Sort According to Natural Sorting Order.
+3) public static void sort(Object[] o, Comparator c);To Sort According to Customized Sorting 
+                                                      Order.
+Note:
+=> For Object Type Arrays we can Sort According to Natural Sorting Order OR Customized Sorting        Order.
+=> But we can Sort primitive[] Only Based on Natural Sorting.
+
+
+import java.util.*;
+class ArraysSortDemo {
+	public static void main(String args[]) {
+		int[] a = {10, 5, 20, 11, 6}; 
+		System.out.println("Primitive Array Before Sorting:");
+		for (int a1 : a) {
+			System.out.println(a1);
+ 		}
+		Arrays.sort(a);
+		System.out.println("Primitive Array After Sorting:");
+		for (int a1 : a) {
+			System.out.println(a1);
+ 		}
+		String[] s = {"A", "Z", "B"};
+		System.out.println("Object Array Before Sorting:");
+		for (String s1 : s) {
+			System.out.println(s1);
+ 		}
+		Arrays.sort(s);
+		System.out.println("Object Array After Sorting:");
+		for (String s1 : s) {
+			System.out.println(s1);
+		}
+		Arrays.sort(s,new MyComparator());
+		System.out.println("Object Array After Sorting by Comparator:");
+		for (String s1 : s) {
+			System.out.println(s1);
+		}
+    }
+}
+class MyCompoarator implements Comparator{
+	public int compare(Object obj1,Object obj2){
+		String s1=obj1.toString();
+		String s2=(String)obj2;
+		return s2.compareTo(s1);
+	}
+}
+
+
+Output
+Primitive Array Before Sorting:
+10
+5
+20
+11
+6
+Primitive Array After Sorting:
+5
+6
+10
+11
+20
+Object Array Before Sorting:
+A
+Z
+B
+Object Array After Sorting:
+A
+B
+Z
+Object Array After Sorting By Comparator:
+Z
+B
+Z
+
+Searching the Elements of Array
+===============================
+1) public static int binarySearch(primitive[] p, primitive target);
+   If the Primitive Array Sorted According to Natural Sorting Order then we have to Use this 
+   Method.
+2) public static int binarySearch(Object[] a, Object target);
+   If the Object Array Sorted According to Natural Sorting Order then we have to Use this 
+   Method.
+3) public static intbinarySearch(Object[] a, Object target, Comparator c);
+   If the Object Array Sorted According to Comparator then we have to Use this Method.
+
+Note: All Rules of Array Class binarySearch() are Exactly Same as Collections Class 
+      binarySearch().
+
+
+Program: To Search Elements of Array
+import java.util.Arrays;
+import java.util.Comparator;
+//import static java.util.Arrays.*;
+class  ArraysSearchDemo {
+	public static void main(String args[]) {
+		int[] a = {10, 5, 20, 11, 6};
+		Arrays.sort(a); //Sort By Natural Order
+		System.out.println(Arrays.binarySearch(a, 6)); //1
+		System.out.println(Arrays.binarySearch(a, 14)); //-5
+		
+		String[] s = {"A", "Z", "B"};
+		Arrays.sort(s);
+		System.out.println(binarySearch(s, "Z")); //2
+		System.out.println(binarySearch(s, "S")); //-3
+
+		Arrays.sort(s, new MyComparator());
+		System.out.println(binarySearch(s, "Z", new MyComparator())); //0
+		System.out.println(binarySearch(s, "S", new MyComparator())); //-2
+		System.out.println(binarySearch(s, "N")); //-4
+	}
+}
+class MyComparator implements Comparator {
+	public int compare(Object obj1, Object obj2) {
+ 		String s1 = obj1.toString();
+ 		String s2 = obj2.toString();
+		return s2.compareTo(s1);
+	}
+}
+
+Conversion of Array to List
+===========================
+Note: To convert the Collection to Array we have a method called
+		Object[] toArray()
+
+=> Arrays Class contains asList() for this 
+	public static List asList(Object[] a);
+=> Strictly Speaking this Method won't Create an Independent List Object, Just we are 
+   Viewing existing Array in List Form.
+
+=> By using Array Reference if we Perform any Change Automatically that Change will be 
+   reflected to List Reference. 
+=> Similarly by using List Reference if we Perform any Change Automatically that Change will 
+   be reflected to Array.
+=> By using List Reference if we are trying to Perform any Operation which Varies the Size
+   then we will get Runtime Exception Saying UnsuportedOperationException.
+
+eg:
+ String s[]={"A","B","Z"};
+  List  l  = Arrays.asList(s);
+  l.add("K");//RE: UnsuportedOperationException
+  l.remove(1);//RE: UnsuportedOperationException
+  l.set(1, "K"); //valid
+
+=> By using List Reference if we are trying to Replace with Heterogeneous Objects then we will 
+   get Runtime Exception Saying ArrayStoreException.
+
+Program: To View Array in List Form
+import java.util.*;
+class ArraysAsListDemo {
+  public static void main(String args[]) {
+      String[] s = {"A", "Z", "B"};
+      List l = Arrays.asList(s);
+      System.out.println(l); //[A, Z, B]
+
+      s[0] = "K";
+      System.out.println(l); //[K, Z, B]
+
+      l.set(1, "L");
+      for (String s1 : s )
+      	System.out.println(s1); //K L B
+
+      l.add("sachin"); //RE: java.lang.UnsupportedOperationException
+      l.remove(2); //RE: java.lang.UnsupportedOperationException
+      l.set(1, new Integer[10]); //RE: java.lang.ArrayStoreException:[Ljava.lang.Integer;
+ }
+}
+
+
+
+
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

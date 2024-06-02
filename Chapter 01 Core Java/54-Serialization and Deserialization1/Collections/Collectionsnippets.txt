@@ -1,0 +1,30 @@
+1st pgm
+========
+ts.add(10);
+ts.add(0);
+ts.add(15);
+ts.add(5);
+ts.add(20);
+ts.add(20);
+
+2nd pgm
+========
+ts.add(new StringBuffer("A"));
+ts.add(new StringBuffer("Z"));
+ts.add(new StringBuffer("K"));
+ts.add(new StringBuffer("L"));
+
+3rd pgm
+=======
+Write a java program to insert the String and StringBuffer object into TreeSet where sorting order
+is in increasing length order.if 2 objects have same length then consider their 
+   Alphabetical order
+sample::
+ts.add(new StringBuffer("A"));
+ts.add(new StringBuffer("ABC"));
+ts.add(new StringBuffer("AA"));
+ts.add("XX");
+ts.add("ABCE");
+ts.add("A");
+
+

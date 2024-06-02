@@ -1,0 +1,200 @@
+1.5 version enhancement of Queue
+===============================
+ 1. It is a child interface of Collection
+ 2. If we want to represent a group of individual Objects before Processing then we should go
+    for Queue.
+ 3. From 1.5 version LinkedList also implements Queue
+ 4. Usually Queue follows FIFO Order,Based on our requirement we can implement our own priority
+    also.
+ 5. LinkedList based implementation Queue also follows FIFO order.
+
+eg: Before sending mail, we need to store the mail id in any one of the datstructure,the best
+    suited datastructure is "Queue".
+      
+
+Important methods associated with Queue
+=======================================
+1. boolean offer (Object obj)
+              => to add object into the Queue
+
+2. Object peek()
+              => It return the head element of the Queue
+		 If Queue is empty it returns null.
+
+3. Object element()
+	      => It return the head element of the Queue
+		 If Queue is empty it throws NoSuchElementException.
+
+4. Object poll()
+	      => It remove and return the head element of the queue
+		 If Queue is empty it returns null.
+
+5. Object remove()
+	      => It remove and return the head element of the Queue
+		 If Queue is empty it returns NoSuchElementException.
+
+PriorityQueue
+=============
+ 1. To process the elements before processing, we need to store the elements based on some             priority order
+ 2. Priority Order
+          => natural sorting order
+	  => customized sorting order
+ 3. insertion order => not preseved based on some sorting it will be added.
+ 4. duplicate       => not allowed.
+ 5. null insertion  => not allowed 
+ 6. heterogenous    => if we depend on natural sorting order,no objects should homogenous and it
+		       should implements Comparable
+		       if it is customized sorting order,then Object can be heterogenous and it
+		       need not implements Comparable.
+ 
+
+Constructor
+==========
+  1. PriorityQueue p=new PriorityQueue();
+			//Default Capacity=> 11
+			//Insertion order => based on default natural sorting order.
+
+  2. PriorityQueue p=new PriorityQueue(int initialCapacity);
+  3. PriorityQueue p=new PriorityQueue(int initialCapacity,Comparator comparator)
+  4. PriorityQueue p=new PriorityQueue(SortedSet s);
+  5. PriorityQueue p=new PriorityQueue(Collection c);
+
+eg#1.
+import java.util.PriorityQueue;
+public class TestApp{
+	public static void main(String... args){
+		PriorityQueue p=new PriorityQueue();
+		System.out.println(p.poll());//null
+		System.out.println(p.element());//NoSuchElementException
+
+		for (int i=0;i<=10 ;i++ ){
+			p.offer(i);
+		}
+		System.out.println(p);//[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+		
+		System.out.println(p.poll());//0
+
+		System.out.println(p);//[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	}
+}
+
+
+eg#2.
+import java.util.PriorityQueue;
+import java.util.Comparator;
+
+public class TestApp{
+	public static void main(String... args){
+		PriorityQueue q=new PriorityQueue(15,new MyComparator());
+		q.offer("Z");
+		q.offer("A");
+		q.offer("L");
+		q.offer("B");
+		System.out.println(q);//[Z,L,B,A]
+	}
+}
+class MyComparator implements Comparator{
+
+	@Override
+	public int compare(Object obj1,Object obj2){
+
+		String s1=obj1.toString();
+		String s2=obj2.toString();
+
+		return s2.compareTo(s1);
+
+	}
+}
+
+Note: Some Operating System wont provide support for PriorityQueue.
+
+1.6 V enchancement of Collection
+===============================
+1. NavigableSet
+	=> It is the child interface of SortedSet
+	=> It defines several methods for Navigation purposes
+
+  floor(e) => it returns the highest element which is <=e
+  lower(e) => it returns the highest eleemnt which is <e
+
+  ceiling(e) => it returns the lowest element which is >=e
+  higher (e) => it returns the lowest element which is <e
+
+   pollFirst() => remove and return first element
+   pollLast()  => remove and return last element
+
+   descendingSet() =>returns NavigableSet in descending order.
+
+eg#1.
+import java.util.TreeSet;
+public class TestApp{
+	public static void main(String... args){
+		TreeSet<Integer> t = new TreeSet<Integer>();
+		t.add(1000);
+		t.add(2000);
+		t.add(3000);
+		t.add(4000);
+		t.add(5000);
+		System.out.println(t);//[1000,2000,3000,4000,5000]
+		System.out.println(t.ceiling(2000));//2000
+		System.out.println(t.higher(2000));//3000
+		System.out.println(t.floor(3000));//3000
+		System.out.println(t.lower(3000));//2000
+		System.out.println(t.pollFirst());//1000
+		System.out.println(t.pollLast());//5000
+		System.out.println(t.descendingSet());//[4000,3000,2000]
+		System.out.println(t);//[2000,3000,4000]
+	}
+}
+
+2. NavigableMap
+    => It defines several methods of Navigation purpose.
+    => It is child interface of SortedMap.
+
+NavigableMap defines the following methods
+   a. floorKey(e)
+   b. lowerKey(e)
+   c. ceilingKey(e)
+   d. higherKey(e)
+   e. pollFirstEntry()
+   f. pollLastEntry()
+   g. descendingMap()
+
+eg#1.
+import java.util.TreeMap;
+public class TestApp{
+	public static void main(String... args){
+		TreeMap<String, String> t = new TreeMap<String, String>();
+		t.put("b", "Banana");
+		t.put("c", "Cat");
+		t.put("a", "Apple");
+		t.put("d", "Dog");
+		t.put("g", "Gun");
+		System.out.println(t);//{a=Apple,b=Banana,c=Cat,d=Dog,g=Gun}
+		System.out.println(t.ceilingKey("c"));//c
+		System.out.println(t.higherKey("e"));//g
+		System.out.println(t.floorKey("e"));//d
+		System.out.println(t.lowerKey("e"));//d
+		System.out.println(t.pollFirstEntry());//{a=Apple}
+		System.out.println(t.pollLastEntry());//{g=Gun}
+		System.out.println(t.descendingMap());//{d=Dog,b=Banana,c=Cat}
+		System.out.println(t);//{b=Banana,c=Cat,d=Dog}
+	}
+}
+
+
+
+
+
+
+     
+
+
+
+ 
+
+
+  
+
+
+		  

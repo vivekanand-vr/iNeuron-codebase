@@ -1,0 +1,573 @@
+Map
+===
+=> It is not a child interface of Collection.
+=> If we want to represent group of Objects as key-value pair then we need to go for Map.
+=> Both keys and values are Objects only
+=> Duplicate keys are not allowed but values are allowed.
+=> Key-value pair is called as "Entry".
+
+Map interface
+==============
+ 1. It contains 12 methods which is common for all the implementation Map Objects
+
+a. Object put(Object key,Object value)
+b. void putAll(Map m)
+c. Object get(Object key)
+d. Object remove(Object key)
+e. boolean containsKey(Object key)
+f. boolean containsValue(Object value)
+g. boolean isEmpty()
+h. int size()
+i. void clear()
+================
+views of a Map
+	j.Set keySet()
+	k.Collection values()
+	l.Set entrySet()
+
+Entry(I)
+=======
+ 1. Each key-value pair is called Entry.
+ 2. Without existence of Map,there can't be existence of Entry Object.
+ 3. Interface entry is defined inside Map interface.
+
+interface Map{
+	interface Entry{
+		Object getKey();
+		Object getValue();
+		Object setValue(Object newValue);
+	}
+}
+
+HashMap
+=======
+ Underlying DataStructure: Hashtable
+ insertion order          : not preserved
+ duplicate keys           : not allowed
+ duplicate values       : allowed
+ Heterogenous objects    : allowed
+ null insertion          : for keys allowed only once,but for values can be any no.
+ implementation interface: Serializable,Cloneable.
+
+Difference b/w HashMap and Hashtable
+====================================
+ HashMap  => All the methods are not synchronized.
+ Hashtable => All the methods are synchronzied.
+
+ HashMap   => At a time multiple threads can operate on a Object, so it is ThreadSafe.
+ Hashtable  => At a time only one Thread can operate on a Object, so it is not ThreadSafe.
+
+ HashMap   => Pefromance is high.
+ Hashtable => performance is low.
+
+ HashMap   => null is allowed for both keys and values.
+ Hashtable => null is not allowed for both keys and values,it would result in NullPointerException.
+
+ HashMap   => Introduced in 1.2v
+ Hashtable => Introduced in 1.0v
+
+Note: By default HashMap is nonSynchronized,to get the synchronized version of HashMap we need to use synchronizedMap() of 
+            Collection class.
+
+Constructors
+============
+ 1. HashMap hm=new HashMap()
+             //default capacity => 16, loadfactor => 0.75
+
+ 2. Hashmap hm=new HashMap(int capacity);
+	    
+ 3. HashMap hm=new HashMap(int capacity,flot fillration);
+
+ 4. HashMap hm=new HashMap(Map m);
+
+ 
+eg#1.
+import java.util.HashMap;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+
+public class Test  {
+	public static void main(String[] args){	
+			HashMap hm=new HashMap();
+			hm.put("sachin",10);
+			hm.put("dhoni",7);
+			hm.put("kohli",18);
+			hm.put("dravid",19);
+			System.out.println(hm);//{dhoni=7, kohli=18, dravid=19, sachin=10}
+			System.out.println(hm.put("sachin",99));//10
+
+			Set s= hm.keySet();
+			System.out.println(s);//[dhoni,kohli,dravid,sachin]
+
+			Collection c= hm.values();
+			System.out.println(c);//[7,18,19,99]
+
+			Set s1= hm.entrySet();
+			System.out.println(s1);//[dhoni=7,kohli=18,dravid=19,sachin=10]
+
+			Iterator itr=s1.iterator();
+			while(itr.hasNext()){
+				Map.Entry m1=(Map.Entry)itr.next();
+				System.out.println(m1.getKey() + "----->"+m1.getValue());
+				if(m1.getKey().equals("sachin"))
+					m1.setValue(999);
+			}
+			System.out.println(hm);//{dhoni=7,kohli=18,dravid=19,sachin=999}
+      }
+}
+
+LinkedHashMap
+=============
+ => It is the child class of HashMap.
+ => It is same as HashMap,but with the following difference
+
+       HashMap             => underlying datastructure is hashtable.
+       LinkedHashMap => underlying datastructure is LinkedList + hashtable.
+
+       HashMap             => insertion order not preserved.
+       LinkedHashMap => insertion order preserved.
+
+       HashMap             => introduced in 1.2v
+       LinkedHashMap => introduced in 1.4v
+
+In the above pgm, if we replace HashMap with LinkedHashMap we get the following output.
+{sachin=10, dhoni=7, kohli=18, dravid=19}
+10
+[sachin, dhoni, kohli, dravid]
+[99, 7, 18, 19]
+[sachin=99, dhoni=7, kohli=18, dravid=19]
+sachin----->99
+dhoni----->7
+kohli----->18
+dravid----->19
+{sachin=999, dhoni=7, kohli=18, dravid=19}
+
+Note: for developing cache based applications, we use HashMap and LinkedHashMap where duplicates
+            are not allowed,but insertion order preserved.
+
+IdentityHashMap
+===============
+ It is same as HashMap, with the following differences
+a. In case of HashMap,jvm will use equals() to check whether the keys are duplicated or not.
+    	equals() => meant for ContentComparison.
+b. In case of IdentityHashMap,jvm wil use == operator to identify whether the keys are duplicated.
+    or not.
+
+eg#1.
+  
+import java.util.HashMap;
+public class Test  {
+	public static void main(String[] args){	
+			HashMap hm=new HashMap();
+			Integer i1=new Integer(10);
+			Integer i2=new Integer(10);
+			hm.put(i1,"afridi");
+			hm.put(i2,"sachin");
+			System.out.println(hm);//[10 = sachin][i2.equals(i1)]
+      }
+}
+
+eg#2.
+import java.util.IdentityHashMap;
+public class Test  {
+	public static void main(String[] args){	
+			IdentityHashMap ihm=new IdentityHashMap();
+			Integer i1=new Integer(10);
+			Integer i2=new Integer(10);
+			ihm.put(i2,"afridi");
+			ihm.put(i1,"sachin");
+			System.out.println(ihm);//[10=afridi,10=sachin](i2==i1)
+      }
+}
+
+Differnce b/w == operator and equals?
+ Integer i1=new Integer(10);
+ Integer i2=new Integer(10);
+ System.out.println(i1==i2);//false
+ System.out.println(i1.equals(i2));//true
+
+WeakHashMap
+==========
+ It is exactly same as HashMap, with the following differences.
+1. HashMap will always dominate Garbage Collector, that is if the Object is a part of HashMap
+   and if the Object is Garbage Object, still Garbage Collector won't remove that Object from
+   heap since it is a part of HashMap. HashMap dominates GarbageCollector.
+2. Garbage Collector will dominate WeakHashMap, that is if the Object is part of WeakHashMap and
+   if that Object is Garbage Object, then immediately Garbage Collector will remove that Object
+   from heap even though it is a part of WeakHashMap, so we say Garbage Collector dominates
+   "WeakHashMap".
+
+eg#1.
+import java.util.HashMap;
+public class Test  {
+	public static void main(String[] args)throws InterruptedException{	
+			HashMap hm=new HashMap();
+			Temp t=new Temp();
+			hm.put(t,"nitin");
+			System.out.println(hm);//{temp=nitin}
+			t=null;
+			System.gc();
+			Thread.sleep(5000);
+			System.out.println(hm);//{temp=nitin}		
+      }
+}
+class Temp{
+	public String toString(){
+		return "temp";	
+	}
+	public void finalize(){
+		System.out.println("Cleaning the Object");
+	}
+}
+
+eg#2.
+import java.util.WeakHashMap;
+public class Test  {
+	public static void main(String[] args)throws InterruptedException{	
+			WeakHashMap whm=new WeakHashMap();
+			Temp t=new Temp();
+			whm.put(t,"nitin");
+			System.out.println(whm);//{temp=nitin}
+			t=null;
+			System.gc();
+			Thread.sleep(5000);
+			System.out.println(whm);//{}
+			
+      }
+}
+class Temp{
+	public String toString(){
+		return "temp";	
+	}
+	public void finalize(){
+		System.out.println("Object is removed");
+	}
+}
+
+SortedMap
+=========
+ 1. It is the child interfae of Map
+ 2. If we want Entry object to be sorted and stored inside the map,we need to used "SortedMap".
+ 
+SortedMap defines few specific method like
+ a. Object firstKey()
+ b. Object lastKey()
+ c. SortedMap headMap(Object key)
+ d. SortedMap tailMap(Object key)
+ e. SortedMap subMap(Object obj1,Object obj2)
+ f. Compartor compartor()
+
+TreeMap
+=======
+ 1. Underlying datastructure is "redblacktree".
+ 2. Duplicate keys are not allowed,where as values are allowed.
+ 3. Insertion order is not preserved and it is based on some sorting order.
+ 4. If we are depending on natural sorting order,then those keys should be homogenous and it  should be Comparable otherwise ClassCastException.
+ 5. If we are working on customisation through Comparator,then those keys can be heterogenous and  it can be NonComparable.
+ 6. No restrictions on values, it can be heterogenous or NonComparable also.
+ 7. If we try to add null Entry into TreeMap, it would result in "NullPointerException".
+
+Constructors of TreeMap
+=======================
+ TreeMap t=new TreeMap();
+ TreeMap t=new TreeMap(Comparator c)
+ TreeMap t=new TreeMap(SortedMap m);
+ TreeMap t=new TreeMap(Map m)
+
+eg#1.
+import java.util.TreeMap;
+class TreeMapDemo {
+public static void main(String[] args) {
+	TreeMap m = new TreeMap();
+	m.put(100, "ZZZ");
+	m.put(103, "YYY");
+	m.put(101, "XXX");
+	m.put(104, 106);
+	m.put(107, null);
+	m.put("FFF", "XXX");//RE: ClassCastException
+	m.put(null, "XXX"); //RE: Exception in thread "main" java.lang.NullPointerException
+	System.out.println(m); //{100=ZZZ, 101=XXX, 103=YYY, 104=106, 107=null}
+}
+
+eg#2.
+CustomizedSorting order
+=======================
+ import java.util.TreeMap;
+ import java.util.Comparator;
+
+public class TestApp{
+	public static void main(String... args){
+		TreeMap tm=new TreeMap(new MyComparator());
+		tm.put("AAA",100);
+		tm.put("ZZZ",150);
+		tm.put("XXX",200);
+		tm.put("LLL",10);
+		System.out.println(tm);//{ZZZ=150, XXX=200, LLL=10, AAA=100}
+	}
+}
+class MyComparator implements Comparator{
+
+	@Override
+	public int compare(Object obj1,Object obj2){
+
+		String s1=obj1.toString();
+		String s2=obj2.toString();
+
+		return s2.compareTo(s1);
+
+	}
+}
+Hashtable:
+=> The Underlying Data Structure for Hashtable is Hashtable Only.
+=> Duplicate Keys are Not Allowed. But Values can be Duplicated.
+=> Insertion Order is Not Preserved and it is Based on Hashcode of the Keys.
+=> Heterogeneous Objects are Allowed for Both Keys and Values.
+=> null Insertion is Not Possible for Both Key and Values. Otherwise we will get Runtime 
+      Exception Saying NullPointerException.
+=> It implements Serializable and Cloneable,but not RandomAccess.
+=> Every Method Present in Hashtable is Synchronized and Hence Hashtable Object is Thread 
+      Safe,so best suited when we work with Search Operation.
+
+Constructors:
+1) Hashtable h = new Hashtable();
+ 	Creates an Empty Hashtable Object with Default Initial Capacity 11 and 
+        Default Fill Ratio 0.75.
+2) Hashtable h = new Hashtable(intinitialcapacity);
+3) Hashtable h = new Hashtable(intinitialcapacity, float fillRatio);
+4) Hashtable h = new Hashtable(Map m);
+
+
+import java.util.Hashtable;
+class  HashtableDemo {
+	public static void main(String[] args) {
+		Hashtable h = new Hashtable();
+		h.put(new Temp(5), "A");
+		h.put(new Temp(2), "B");
+		h.put(new Temp(6), "C");
+		h.put(new Temp(15), "D");
+		h.put(new Temp(23), "E");
+		h.put(new Temp(16), "F");
+		h.put("sachin",null); //RE: java.lang.NullPointerException
+		System.out.println(h); //{6=C, 16=F, 5=A, 15=D, 2=B, 23=E}
+     }
+}
+class Temp{
+	int i;
+	Temp(int i){
+		this.i=i;
+	}
+	public int hashCode(){
+		return i;
+	}
+	public String toString(){
+		return i+" ";
+	}
+
+}
+
+Scenario2: public int hashCode(){ return i%9;}
+Scenario3: Hashtable h=new Hashtable(25);
+	   public int hashCode(){ return i;}
+
+
+hashCode() method :
+1. For every object jvm will generate a unique number which is nothing but hashCode.
+2. Jvm will using hashCode while saving objects into hashing related data  structures like   HashSet, HashMap, and Hashtable etc.
+3. If the objects are stored according to hashCode searching will become very efficient 
+   (The most powerful search algorithm is hashing which will work based on hashCode).
+4. If we didn't override hashCode() method then Object class hashCode() method will be executed   which generates hashCode based on address of the object but it doesn't mean hashCode represents    address of the object.
+5. Based on our programming requirement we can override hashCode() method to generate our own   hashcode.
+6. Overriding hashCode() method is said to be proper if and only if for every object we have to generate a unique number as hashcode for every object.
+
+ public native int hashCode()
+	=> It generates the hashCode based on the address of the Object.
+
+ public String toString(){
+	return getClass().getName() + "@" + Integer.toHexString(hashCode());
+ }
+ here getClass().getName() => classname@hexa_decimal_String_representation_of_hashCode 
+
+Example1:
+class Student { 
+	public int hashCode() { 
+		return 100; 
+	}
+} 
+It is improper way of overriding hashCode() method because for every object we are generating same 
+hashcode.
+
+Example2:
+class Student { 
+	int rollno; 
+	public int hashCode() { 
+		return rollno; 
+	}
+} 
+It is proper way of overriding hashcode() method because for every object we are generating a different hashcode. 
+
+toString() method vs hashCode() method
+=======================================
+
+eg#1.
+class Test{
+	int i;
+	Test(int i){
+		this.i=i;
+	}
+	public static void main(String[] args){
+		Test t1=new Test(10);
+		Test t2=new Test(100);
+		System.out.println(t1);//Test@....
+		System.out.println(t2);//Test@....
+	}
+}
+Object==>toString() called.
+Object==>hashCode() called.
+In this caseObject class toString( )method got executed which is internally calls Object  class hashCode( ) method.
+
+ 
+eg#2.
+class Test{
+	int i;
+	Test(int i){
+		this.i=i;
+	}
+	public int hashCode(){
+		return i;
+	}
+	public static void main(String[] args){
+		Test t1=new Test(10);
+		Test t2=new Test(100);
+		System.out.println(t1);//Test@A
+		System.out.println(t2);//Test@64
+	}
+}
+Object==>toString() called.
+ Test  ==>hashCode() called.
+In this case Object class toString( ) method got executed which is internally calls Test 
+class hashCode( ) method.
+
+eg#3.
+class Test{
+	int i;
+	Test(int i){
+		this.i=i;
+	}
+	public int hashCode(){
+		return i;
+	}
+	public String toString(){
+		return i+"";
+	}
+	public static void main(String[] args){
+		Test t1=new Test(10);
+		Test t2=new Test(100);
+		System.out.println(t1);//10
+		System.out.println(t2);//100
+	}
+  }
+
+Output:
+10
+100
+In this case Test class toString() method got executed and hashCode() wont be executed.
+
+Note :
+1. if we are giving opportunity to Object class toString() method it internally calls hashCode()    method. But if we are overriding toString() method it may not call hashCode() method.
+2. We can use toString() method while printing object references and we can use hashCode() method  while saving objects into HashSet or Hashtable or HashMap 
+
+
+Properties:
+=> It is the Child Class of Hashtable.
+=> In Our Program if anything which Changes Frequently (Like Database User Name, Password, Database URLs Etc) 
+     Never Recommended to Hard Code in Java Program. 
+=> Because for Every Change in Source File we have to Recompile, Rebuild and Redeploying 
+     Application and Sometimes Server Restart Also Required, which Creates Business Impact to the Client.
+=> To Overcome this Problem we have to Configure Such Type of Propertiesin Properties File.
+=> The Main Advantage in this Approach is if a there is a Change in Properties File, to Reflect that Change Just Redeployment is Enough, 
+      which won't Create any Business Impact.
+=> We can Use Properties Object to Hold Properties which are coming from Properties File.
+
+
+Constructor:
+	Properties p = new Properties();
+
+1) public String getProperty(String pname);
+	To Get the Value associated with specified Property.
+2) public String setProperty(String pname, String pvalue);
+	To Set a New Property.
+3) public Enumeration propertyNames();It Returns All Property Names.
+4) public void load(InputStream is);
+	To Load Properties from Properties File into Java Properties Object.
+5) public void store(OutputStreamos, String comment);
+	To Store Properties from Java Properties Object into Properties File
+
+
+eg#1.
+import java.util.Properties;
+import java.io.*;
+class  PropertiesDemo {
+	public static void main(String[] args) throws Exception {
+		Properties p = new Properties();
+		FileInputStream fis = new FileInputStream("abc.properties");
+		p.load(fis);
+		System.out.println(p);
+		
+		String s = p.getProperty("Venki");
+		System.out.println(s);
+		p.setProperty("nitin", "88888");
+		FileOutputStream fos = new FileOutputStream("abc.properties");
+		p.store(fos, "Updated by nitin for java class");
+	}
+}
+
+abc.properties
+==============
+User Name= Scott
+Password = Tiger
+Venki = 9999;
+
+eg#2
+import java.util.*;
+import java.io.*;
+class PropertiesDemo {
+	public static void main(String[] args) throws Exception {
+		Properties p = new Properties();
+		FileInputStream fis = new FileInputStream("db.properties");
+		p.load(fis);
+		String url = p.getProperty("url");
+		String user = p.getProperty("user");
+		String pwd = p.getProperty("pwd");
+		Connection con = DriverManager.getConnection(url,user,pwd);
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	}
+}
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+       
+      
+
+
+ 
+
+
+
+
+

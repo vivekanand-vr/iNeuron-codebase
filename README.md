@@ -3,7 +3,8 @@
 Welcome to my collection of Java Full Stack Development programs! This repository contains a variety of programs and projects that I've implemented using multiple technologies in the Java ecosystem. 
 Feel free to explore the projects and delve into the codebase to gain insights into various Java technologies.
 
-#### Course Link: https://ineuron.ai/course/full-stack-java-developer
+#### ▶️ Detailed Handwritten Notes: <a href="https://drive.google.com/drive/u/3/folders/1g-Lal7BTqHNVgoMwT-YkQvwZS8qAEzLT"> Drive Link </a>
+#### ▶️ Course Details: <a href="https://ineuron.ai/course/full-stack-java-developer"> Link </a>
 
 ## Technologies Used
 - Backend : Java, JDBC, Servlets, JSP, JSTL, Hibernate ORM, Spring Core, Spring Boot, REST-APIs, Microservices

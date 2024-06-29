@@ -15,6 +15,7 @@ Feel free to explore the projects and delve into the codebase to gain insights i
 ## Usage
 - Pull the repo and import the projects in your Eclipse IDE, also make sure to include the necessary jar and war files to run the project.
 - Open Eclipse IDE and choose a folder to create a workspace. Then follow the below steps to import multiple projects of a chapter in one go
+- Make sure to add the required **Jar files** (Mysql connector, Hikaricp etc) in the initial programs of JDBC, JSP, and Hibernate as there is no project management tool used here.
 
 ## Follow the steps to import in Eclipse IDE
   

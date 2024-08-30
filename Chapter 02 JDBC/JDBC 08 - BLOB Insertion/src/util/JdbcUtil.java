@@ -26,7 +26,7 @@ public class JdbcUtil {
 	public static Connection getJdbcConnection() throws SQLException, IOException {
 
 		// Take the data from properties file
-		FileInputStream fis = new FileInputStream("V:\\Java Programs\\JDBC\\JDBC 08 - BLOB Insertion\\src\\properties\\application.properties");
+		FileInputStream fis = new FileInputStream("P:\\iNeuron Codebase\\Chapter 02 JDBC\\JDBC 08 - BLOB Insertion\\src\\properties\\application.properties");
 		Properties properties = new Properties();
 		properties.load(fis);
 

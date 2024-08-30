@@ -19,7 +19,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		String status = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql:///octbatch", "root", "root123");
+			connection = DriverManager.getConnection("jdbc:mysql:///ineuron", "root", "root@123");
 			if (connection != null)
 				pstmt = connection.prepareStatement(SQLINSERTQUERY);
 			if (pstmt != null) {
